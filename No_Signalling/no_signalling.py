@@ -34,7 +34,7 @@ class no_signalling:
     A = matrix.trans(A)
     A = A * 1.0
     B = B * 1.0
-    C = C  * 1.0 * self.optimize_sign
+    C = C  * 1.0 
     sol = solvers.lp(C,A,B)
     return sol['x'] 
 
@@ -57,8 +57,8 @@ class no_signalling:
     result = 0
     for i in range(26):
        result = result + self.c[i]*sol[i]  
-    print "Result is ", result + self.const    
-    return result + self.const
+    print "Result is ", result * -1 + self.const    
+    return result * -1 + self.const
 
 
   ##creating variable names
