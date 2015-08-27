@@ -14,7 +14,17 @@ class no_signalling:
     string = ""
     for i in range(len(lis)):
       string = string + str(lis[i])   
-    return string  
+    return string 
+  
+  ##to change the sign of co-efficients of an expression
+  def change_sign(self,terms):
+    temp = terms[:]
+    for i in range(len(temp)):
+      temp[i][3] = -1 * temp[i][3]
+    return temp  
+       
+       
+
   ##running linear prog
   def linear_prog(self):
     A = matrix(self.a)
