@@ -24,6 +24,7 @@ class no_signalling:
     return temp  
        
        
+  
 
   ##running linear prog
   def linear_prog(self):
@@ -33,7 +34,7 @@ class no_signalling:
     A = matrix.trans(A)
     A = A * 1.0
     B = B * 1.0
-    C = C * -1.0
+    C = C  * 1.0 * self.optimize_sign
     sol = solvers.lp(C,A,B)
     return sol['x'] 
 
@@ -56,8 +57,8 @@ class no_signalling:
     result = 0
     for i in range(26):
        result = result + self.c[i]*sol[i]  
-    print "Result is ", result    
-    return result
+    print "Result is ", result + self.const    
+    return result + self.const
 
 
   ##creating variable names
@@ -107,13 +108,36 @@ class no_signalling:
      self.b.append(val)
 
 
+  ##for specifyinh objective function from outside
+  def create_objective(self,terms,constn):
+    val = constn
+    self.const = 0
+    ineq = []
+    for i in range(26):
+      self.c[i] = 0
+    for i in range(len(terms)):
+       par = self.lis_to_string(terms[i][0])
+       meas = self.lis_to_string(terms[i][1])
+       out = self.lis_to_string(terms[i][2])
+       coff = terms[i][3]
+       val =val + coff * self.tab_3[(par,meas,out)][1] 
+       for j in range(len(self.tab_3[(par,meas,out)][0])):
+	   
+         temp = coff * self.tab_3[(par,meas,out)][0][j][3]
+	 add = self.tab_3[(par,meas,out)][0][j][:]
+         add[3] = temp	
+	 ineq.append(add)
+    self.const = val
+    self.create_optimize(ineq)		
+
+
   ##creating of optimum function c   
   def create_optimize(self,ineq):
    
      for i in range(len(ineq)):
        var = self.create_string(ineq[i][0],ineq[i][1],ineq[i][2])
        self.c[self.dic_var[var]] = self.c[self.dic_var[var]] + ineq[i][3]
-     print self.c       
+     print "objective ",self.c       
 
 
   ##initialization   
@@ -127,6 +151,7 @@ class no_signalling:
     self.b = []
     self.c = 26 * [0]
     self.const = 0
+    self.optimize_sign = -1
     idx = 0
     selection = [1,2,4,3,5,6,7]
     for i in range(len(selection)):
@@ -192,17 +217,6 @@ class no_signalling:
 		for b in range(2):
 		   for c in range(2):
                      self.add_inequality([[[0,1,2],[x,y,z],[a,b,c],-1]],0)             
-
-##chsh bell inequality   
-def chsh():
-  chsh = []
-  chsh.append([[1,2],[0,1],[0,0],4])
-  chsh.append([[1,2],[0,0],[0,0],4])
-  chsh.append([[1,2],[1,0],[0,0],4])
-  chsh.append([[1,2],[1,1],[0,0],-4])
-  chsh.append([[1],[0],[0],-4])
-  chsh.append([[2],[0],[0],-4])
-  return chsh
 
 
 

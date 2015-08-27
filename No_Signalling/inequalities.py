@@ -93,6 +93,21 @@ def svetlichny_facet():
             for c in range(2):
               mermin.append([[0,1,2],[x,y,z],[a,b,c],val[a]*val[b]*val[c]*sign])	       
    
-  return mermin 
+  return mermin
+
+##Chsh facet  <A_0B_0> + <A_1B_0> + <A_0B_1> - <A_1B_1>
+##limit: -4 4
+def chsh_facet():
+  chsh = []
+  parties = [0,1]
+  meas =[[0,0],[1,0],[0,1],[1,1]]
+  val = [1,-1]
+  for m in range(len(meas)):
+    x = meas[m][0]
+    y = meas[m][1]
+    for a in range(2):
+      for b in range(2):
+        chsh.append([parties,[x,y],[a,b],val[a]*val[b]*val[x*y]])
+  return chsh
 
 
