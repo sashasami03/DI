@@ -17,11 +17,14 @@ class no_signalling:
     return string 
   
   ##to change the sign of co-efficients of an expression
-  def change_sign(self,terms):
+  def change_sign(self,lis):
+    terms = lis[0]
+    val = lis[1]
     temp = terms[:]
+    var = val * -1
     for i in range(len(temp)):
       temp[i][3] = -1 * temp[i][3]
-    return temp  
+    return (temp,var)  
        
        
   
@@ -42,6 +45,7 @@ class no_signalling:
   def print_ineq(self):
     for i in range(len(self.a)):
        print self.a[i]
+    print "\n"   
     print self.b
     for i in range(len(self.a)):
        ineq = 0        
@@ -56,9 +60,9 @@ class no_signalling:
        print self.dic_var_idx[i]," = ",sol[i]
     result = 0
     for i in range(26):
-       result = result + self.c[i]*sol[i]  
-    print "Result is ", result * -1 + self.const    
-    return result * -1 + self.const
+       result = result + self.c[i]*sol[i] 
+    print "Result is ", result  + self.const    
+    return result  + self.const
 
 
   ##creating variable names
@@ -76,8 +80,9 @@ class no_signalling:
    
   
   ## for adding inequalities from outside
-  def add_inequality(self,terms,lesthn):
-    val = lesthn
+  def add_inequality(self,lis):
+    val = lis[1]
+    terms = lis[0]
     ineq = []
     for i in range(len(terms)):
        par = self.lis_to_string(terms[i][0])
@@ -109,8 +114,9 @@ class no_signalling:
 
 
   ##for specifyinh objective function from outside
-  def create_objective(self,terms,constn):
-    val = constn
+  def create_objective(self,lis):
+    val = lis[1]
+    terms = lis[0]
     self.const = 0
     ineq = []
     for i in range(26):
@@ -209,14 +215,13 @@ class no_signalling:
               self.tab_3[("012",tab_num,"011")] = ([[[0],[x],[0],1],[[0,2],[x,z],[0,0],-1],[[0,1],[x,y],[0,0],-1],[[0,1,2],[x,y,z],[0,0,0],1]],0)   
               self.tab_3[("012",tab_num,"111")] = ([[[0],[x],[0],-1],[[1],[y],[0],-1],[[2],[z],[0],-1],[[1,2],[y,z],[0,0],1],[[0,2],[x,z],[0,0],1],[[0,1],[x,y],[0,0],1],[[0,1,2],[x,y,z],[0,0,0],-1]],1)             
 	    
-
     for x in range(2):
        for y in range(2):
 	  for z in range(2):
-	     for a in range(2):
-		for b in range(2):
-		   for c in range(2):
-                     self.add_inequality([[[0,1,2],[x,y,z],[a,b,c],-1]],0)             
+               for a in range(2):
+	         for b in range(2):
+                   for c in range(2):	      
+                     self.add_inequality(([[[0,1,2],[x,y,z],[a,b,c],-1]],0))             
 
 
 
