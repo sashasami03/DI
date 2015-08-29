@@ -92,4 +92,8 @@ def chsh_facet():
         chsh.append([parties,[x,y],[a,b],val[a]*val[b]*val[x*y]])
   return chsh
 
-
+##GYNI inequality
+## limit 0 - 4/3 ( divide by 4.0 to get probability )
+def gyni():
+  gyn = [ [[0,1,2],[0,0,0],[0,0,0],1] , [[0,1,2],[0,1,1],[1,1,0],1] , [[0,1,2],[1,0,1],[0,1,1],1]  , [[0,1,2],[1,1,0],[1,0,1],1] ]
+  return gyn 
