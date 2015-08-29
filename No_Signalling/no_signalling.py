@@ -8,7 +8,47 @@ import sys
 
 
 class no_signalling:
-   
+
+#printing 3 party tables
+  def print_tabs(self,sol):
+    meas = [ [] , [0,0,0] , [1,0,0] , [0,1,0] , [1,1,0] , [0,0,1] , [1,0,1] , [0,1,1] ,[1,1,1] ] 
+    for x in range(2):
+      for y in range(2):
+        for z in range(2):
+          res = [0]
+          tab_num = str(x)+str(y)+str(z)
+          for i in range(1,9,1):
+            val = 0
+            lis = self.tab_3[("012",tab_num,self.lis_to_string(meas[i]))][0]
+            cons = self.tab_3[("012",tab_num,self.lis_to_string(meas[i]))][1]
+            val = val + cons
+	    	   
+            for l in range(len(lis)):
+              var = self.create_string(lis[l][0],lis[l][1],lis[l][2])
+              val = val + sol[self.dic_var[var]]*lis[l][3]
+            res.append(val)
+	  print res[1]    
+          print tab_num
+          tot = 0
+          for k in range(1,9,1):
+            tot = tot + res[k]
+          print "total probability = ",tot
+          for f in range(2):
+            face = 0
+            for k in range(4):
+              face = face + res[4*f+k+1]
+            print "For face ",f," probability is ",face
+          print "__________________________________"
+          print res[1]," | ",res[2]
+          print res[3]," | ",res[4]
+          print "__________________________________"
+          print "__________________________________"
+          print res[5]," | ",res[6]
+          print res[7]," | ",res[8]
+          print "__________________________________"
+          print "\n"
+
+
   ##concatenate list to string
   def lis_to_string(self,lis):
     string = ""
