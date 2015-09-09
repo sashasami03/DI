@@ -6,20 +6,8 @@ import sys
 ## Example for plotting triparty inequality vs biparty ( in this case svetlichny vs chsh )
 ## See available inequality functions from inequalities.py and set dx and lim accordingly
 
-def chsh_test(par):
-   chsh = []
-   parties = par
-   meas =[[0,0],[1,0],[0,1],[1,1]]
-   val = [1,-1]
-   for m in range(len(meas)):
-      x = meas[m][0]
-      y = meas[m][1]
-      for a in range(2):
-	 for b in range(2):
-	    chsh.append([parties,[x,y],[a,b],-1*val[a]*val[b]*val[(x)*(y)]])
-   return chsh	    
 def __main__():   
-  step = 0.01
+  step = 0.1
   lim = 8
   conv = 1
   x = []
@@ -31,7 +19,7 @@ def __main__():
     P.create_objective(P.change_sign((chsh_facet(),0)))
 
     temp = svetlichny_facet()
-    P.add_inequality((temp,dx))
+    P.add_inequality((temp,dx)) 
     P.add_inequality(P.change_sign((temp,dx))) 
     
 
@@ -43,10 +31,11 @@ def __main__():
 
     result = P.print_sol(solutions)
     print result , " for dx = " , dx
-#  P.print_tabs(solutions)
+    P.print_tabs(solutions)
+    P.print_ineq()
 
     x.append(dx)
-    y.append(abs(result))
+    y.append(result * -1)
 
     dx = dx + step  
 
